@@ -40,12 +40,14 @@
 
     $(document).on('ready', function() {
         setTimeout(function() {}, 5000);
-        setInterval(checkNewMessage, 100);
+        window.checkingMessages = setInterval(checkNewMessage, 100);
 
         window.windowFocus = false;
         $(window).focus(function() {
+            clearInterval(window.checkingMessages);
             window.windowFocus = true;
         }).blur(function() {
+            window.checkingMessages = setInterval(checkNewMessage, 100);
             window.windowFocus = false;
         });
     });
