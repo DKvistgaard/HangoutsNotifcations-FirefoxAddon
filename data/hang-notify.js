@@ -24,14 +24,14 @@
         }
     }
 
-    function checkNewMessage() {
+    function checkNewMessage(noNotification) {
         var divLength = $('div').length;
         if (window.oldDivLength == -1) {
             window.oldDivLength = divLength;
         }
         window.currentDivLength = divLength;
         if (window.currentDivLength > window.oldDivLength && window.oldDivLength !== 0) {
-            if (!window.windowFocus) {
+            if (!window.windowFocus || noNotification !== true) {
                 createNotification();
             }
             window.oldDivLength = window.currentDivLength;
@@ -47,6 +47,7 @@
             clearInterval(window.checkingMessages);
             window.windowFocus = true;
         }).blur(function() {
+            checkNewMessage(true);
             window.checkingMessages = setInterval(checkNewMessage, 100);
             window.windowFocus = false;
         });
